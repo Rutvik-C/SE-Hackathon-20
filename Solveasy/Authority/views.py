@@ -6,7 +6,7 @@ from django.contrib import messages
 from .forms import Registerdetail, Food
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import Belongs, foodAvbl, otherDetails, TypeOf, Cities, Measurement, History
+from .models import Belongs, foodAvbl, otherDetails, Cities, History
 from django.core.mail import send_mail
 from django.utils import timezone
 
@@ -51,7 +51,7 @@ def signup(request):
             object.user = myuser
             object.save()
 
-        messages.success(request, "Your NGO account has been successfully created")
+        messages.success(request, "Your Authority account has been successfully created")
         return redirect("/Authority/login")
 
     else:

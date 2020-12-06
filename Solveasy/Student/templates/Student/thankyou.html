@@ -9,8 +9,14 @@
     </div>
         
     {% endif %}
-<form action="/Student/loginpage/{{y.0.id}}/status/1" method="POST">{% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Submit</button>
-</form>
+    
+    {% for x in y %}
+        <ul>
+            <li> {{ x.problem_title }} </li>
+            <li> {{ x.Other_Specifics }} </li>
+        </ul>
+        <form action="/Student/loginpage/{{y.0.id}}/status/1" method="POST">{% csrf_token %}
+            <button type="submit">Confirm problem statement?</button>
+        </form>
+    {% endfor %}
 <a href="/Student/loginpage">Go back</a>
