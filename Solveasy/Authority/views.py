@@ -2,11 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-# from bootstrap_datepicker_plus import DateTimePickerInput
 from .forms import Registerdetail, Food
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import authenticate, login, logout
-from .models import Belongs, foodAvbl, otherDetails, Cities, History
+from .models import Belongs, problem, otherDetails, Cities
 from django.core.mail import send_mail
 from django.utils import timezone
 
@@ -41,7 +40,7 @@ def signup(request):
             messages.error(request, "Both passwords dont match")
             return redirect('/Authority/signup')
         myuser = User.objects.create_user(username, email, password)
-        belong = Belongs(user=myuser, is_ngo=True)
+        belong = Belongs(user=myuser, is_authority=True)
         belong.save()
         myuser.save()
         Email(username, email)
@@ -75,7 +74,7 @@ def loginpage(request):
         loginpassword = request.POST.get('loginpassword')
         user = authenticate(username=loginusername, password=loginpassword)
         if user is not None:
-            if Belongs.objects.get(user=user).is_ngo:
+            if Belongs.objects.get(user=user).is_authority:
                 login(request, user)
                 messages.success(request, "Successfully Logged in")
                 form = Food()
@@ -96,7 +95,7 @@ def loginpage(request):
 
 
 def check_user(user):
-    return Belongs.objects.get(user=user).is_ngo
+    return Belongs.objects.get(user=user).is_authority
 
 
 @login_required

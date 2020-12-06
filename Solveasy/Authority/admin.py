@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import Belongs,Cities,otherDetails,foodAvbl,History
+from .models import Belongs,Cities,otherDetails,problem
 
 admin.site.register(Belongs)
 admin.site.register(Cities)
 admin.site.register(otherDetails)
-admin.site.register(foodAvbl)
-admin.site.register(History)
-
+admin.site.register(problem)
 
 

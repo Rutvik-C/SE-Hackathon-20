@@ -1,15 +1,14 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from Authority.models import foodAvbl, otherDetails
-from Student.models import FoodReq
-from .serializer import AvblSerializer, ReqSerializer, DetailSerializer
+from Authority.models import problem, otherDetails
+from .serializer import AvblSerializer, DetailSerializer
 
 
 class FoodAvailable(APIView):
     @staticmethod
     def get(request):
-        list1 = foodAvbl.objects.all()
+        list1 = problem.objects.all()
         serializer = AvblSerializer(list1, many=True)
         return Response(serializer.data)
 

@@ -1,15 +1,10 @@
 from django import forms
-from Student.models import FoodReq
 from .models import rate
 from django.contrib.auth.models import User
 
-
-class FoodRequest(forms.ModelForm):
-    class Meta:
-        model = FoodReq
-        fields = "__all__"
-        exclude = ('user', 'foodtakenfrom',)
-
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()
 
 class Rate(forms.ModelForm):
     class Meta:

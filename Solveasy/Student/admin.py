@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import FoodReq, orders
+from .models import problem_selected
 
-admin.site.register(FoodReq)
-admin.site.register(orders)
+admin.site.register(problem_selected)

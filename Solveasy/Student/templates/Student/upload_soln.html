@@ -1,0 +1,10 @@
+<h1>UPLOAD SOLN</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <!-- <input type="file" name="myfile"> -->
+    <button type="submit">Upload</button>
+  </form>
+
+  <p><a href="/">Return to home</a></p>

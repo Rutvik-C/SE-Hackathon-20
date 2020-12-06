@@ -13,10 +13,12 @@
     {% for x in y %}
         <ul>
             <li> {{ x.problem_title }} </li>
-            <li> {{ x.Other_Specifics }} </li>
+            <li> {{ x.problem_desc }} </li>
         </ul>
-        <form action="/Student/loginpage/{{y.0.id}}/status/1" method="POST">{% csrf_token %}
+        <a href="/Student/loginpage/{{y.0.id}}/upload_soln">
             <button type="submit">Confirm problem statement?</button>
-        </form>
+        </a>
     {% endfor %}
+
+    <p></p>
 <a href="/Student/loginpage">Go back</a>
