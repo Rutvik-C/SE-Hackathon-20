@@ -1,0 +1,16 @@
+<h1>Hi</h1>
+{% if messages %}
+    <div id="message"  class="alert-dismissible fade show alert alert-success" role="alert">
+      <ul  id="inner-message" class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    </div>
+        
+    {% endif %}
+<form action="/Student/loginpage/{{y.0.id}}/status/1" method="POST">{% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Submit</button>
+</form>
+<a href="/Student/loginpage">Go back</a>
