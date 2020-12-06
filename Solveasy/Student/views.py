@@ -4,14 +4,14 @@ from django .http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from Authority.models import Belongs,foodAvbl,otherDetails,Cities,History
-from Authority.forms import Registerdetail,otherDetails,foodAvbl
-from .forms import FoodRequest,Rate
-from .models import FoodReq,rate, orders
+from Authority.models import Belongs,problem,otherDetails,Cities
+from Authority.forms import Registerdetail,otherDetails,problem
+from .forms import Rate, UploadFileForm
+from .models import rate, problem_selected
 from datetime import timedelta
 from django.core.mail import send_mail
 from django.utils import timezone
-
+from django.core.files.storage import FileSystemStorage
 
 def Email(username,email):
     send_mail(
@@ -58,7 +58,7 @@ def signup(request):
             messages.error(request,"Both passwords dont match")
             return redirect('signup')
         myuser=User.objects.create_user(username,email,password)
-        belong = Belongs(user=myuser,is_donor =  True)
+        belong = Belongs(user=myuser,is_student =  True)
         belong.save()
         myuser.save()
         Email(username,email)
@@ -86,21 +86,21 @@ def logout_u(request):
 
 def loginpage(request):
     if request.method=="POST":
-        #s=foodAvbl.objects.get(city=request.user.city)
+        #s=problem.objects.get(city=request.user.city)
         now = timezone.now()
         loginusername=request.POST.get('loginusername')
         loginpassword=request.POST.get('loginpassword')
         user=authenticate(username=loginusername,password=loginpassword)
         if user is not None:
-            if Belongs.objects.get(user = user).is_donor:
+            if Belongs.objects.get(user = user).is_student:
                 login(request,user)
                 details=otherDetails.objects.filter(user=request.user).values_list('city')
                 for d in details:
                     s=Cities.objects.get(pk=d[0])
                 
-                j=foodAvbl.objects.all()
+                j=problem.objects.all()
                 print(j)
-                h=orders.objects.all()
+                h=problem_selected.objects.all()
                 print(h)
                 parameter={'j':j,'h':h}
                 messages.success(request,"Successfully Logged in")
@@ -116,9 +116,9 @@ def loginpage(request):
         details=otherDetails.objects.filter(user=request.user).values_list('city')
         for d in details:
             s=Cities.objects.get(pk=d[0])
-        j=foodAvbl.objects.all()
+        j=problem.objects.all()
         print(j)
-        h=orders.objects.all()
+        h=problem_selected.objects.all()
         print(h)
         
         parameter={'j':j}
@@ -129,122 +129,151 @@ def loginpage(request):
         return render(request, 'Student/login.html')
 
 def displaypage(request,id):
-    form = FoodRequest()
-    y=foodAvbl.objects.filter(id=id)
+    # form = FoodRequest()
+    y=problem.objects.filter(id=id)
     print(y)    
-    return render(request,'Student/thankyou.html',{'form':form,'y':y})
+    return render(request,'Student/thankyou.html',{'y':y})
 
-def status1(request,id):
+def upload_soln(request,id):
+    m = id
+    y = problem.objects.get(id=id)
+
     if(request.method=="POST"):
-        form=FoodRequest()
-        m=id
-        y=foodAvbl.objects.filter(id=id).values_list("quantity")
-        h=foodAvbl.objects.get(id=id)
-        form= FoodRequest(request.POST ,request.FILES)
-        if(int(form['quantity_required'].value())>int(y[0][0])):
-            print("HIIIIIIIIIIIIIIIIII")
-            messages.error(request,"Cant be greater than available food")
-            form = FoodRequest()
-            y=foodAvbl.objects.filter(id=id)
-            return render(request,'Student/thankyou.html',{'form':form,'y':y})
-        elif(int(form['quantity_required'].value())<int(y[0][0])):
-            if form.is_valid():    
-                a=orders(O_ID=id,user=h.user,quantity=int(form['quantity_required'].value()),pickup_address=h.pickup_address,s=1)
-                a.save()
-                print(a)
-                object = form.save(commit=False)
-                object.user = request.user
-                object.save()
-                object.foodtakenfrom=m
-                object.save()
-                u=int(y[0][0])-int(form['quantity_required'].value())
-                print(u)    
-                h.quantity=u
-                h.save()
-                messages.success(request,"Response Noted")
-                y=foodAvbl.objects.filter(id=id)
-                y1=foodAvbl.objects.get(id=id) 
-                parameter={'y':y,'y1':y1}
-                return render(request,"Student/status1.html",parameter)   
-        else:
-            messages.success(request,"Form invalid")
-            return render(request,"/Student/thankyou.html")
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return render(request, 'Student/loginpage.html')
     else:
-        y=foodAvbl.objects.filter(id=id)
-        y1=foodAvbl.objects.get(id=id) 
-        parameter={'y':y,'y1':y1}   
-        return render(request,"Student/status1.html", parameter)
+        form = UploadFileForm()
+        z = problem_selected(p_id=id,user=y.user,s=0,problem_title=y)
+        z.save()
+    return render(request, 'Student/upload_soln.html', {'form': form,'y':y})
 
-# def feedback(request,id):
+        # return render(request,'Student/upload_soln.html',{})
+
+# def model_form_upload(request):
+#     if request.method == 'POST':
+#         form = DocumentForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('home')
+#     else:
+#         form = DocumentForm()
+#     return render(request, 'core/model_form_upload.html', {
+#         'form': form
+#     })
+
+# def status1(request,id):
 #     if(request.method=="POST"):
-#         print("Hi")
-#         print("%%%%%%%%%%")
-#         y=foodAvbl.objects.get(id=id)
-#         email=y.user.email
-#         form= Rate(request.POST ,request.FILES)
+#         form=FoodRequest()
+#         m=id
+#         y=problem.objects.filter(id=id).values_list("quantity")
+#         h=problem.objects.get(id=id)
+#         form= FoodRequest(request.POST ,request.FILES)
+#         if(int(form['quantity_required'].value())>int(y[0][0])):
+#             print("HIIIIIIIIIIIIIIIIII")
+#             messages.error(request,"Cant be greater than available food")
+#             form = FoodRequest()
+#             y=problem.objects.filter(id=id)
+#             return render(request,'Student/thankyou.html',{'form':form,'y':y})
+#         elif(int(form['quantity_required'].value())<int(y[0][0])):
+#             if form.is_valid():    
+#                 a=problem_selected(O_ID=id,user=h.user,quantity=int(form['quantity_required'].value()),pickup_address=h.pickup_address,s=1)
+#                 a.save()
+#                 print(a)
+#                 object = form.save(commit=False)
+#                 object.user = request.user
+#                 object.save()
+#                 object.foodtakenfrom=m
+#                 object.save()
+#                 u=int(y[0][0])-int(form['quantity_required'].value())
+#                 print(u)    
+#                 h.quantity=u
+#                 h.save()
+#                 messages.success(request,"Response Noted")
+#                 y=problem.objects.filter(id=id)
+#                 y1=problem.objects.get(id=id) 
+#                 parameter={'y':y,'y1':y1}
+#                 return render(request,"Student/status1.html",parameter)   
+#         else:
+#             messages.success(request,"Form invalid")
+#             return render(request,"/Student/thankyou.html")
+#     else:
+#         y=problem.objects.filter(id=id)
+#         y1=problem.objects.get(id=id) 
+#         parameter={'y':y,'y1':y1}   
+#         return render(request,"Student/status1.html", parameter)
+
+# # def feedback(request,id):
+# #     if(request.method=="POST"):
+# #         print("Hi")
+# #         print("%%%%%%%%%%")
+# #         y=problem.objects.get(id=id)
+# #         email=y.user.email
+# #         form= Rate(request.POST ,request.FILES)
+# #         if form.is_valid():
+# #             object = form.save(commit=False)
+# #             quantity= form.instance.fedto
+# #             object.user=y.user
+# #             object.save()
+# #             send(y.user.username,email,quantity)
+# #             return HttpResponse("Well Done !")
+# #         else:
+# #             return HttpResponse("Bad Work")    
+# #     else:
+# #         form = Rate()
+# #         y=problem.objects.filter(id=id) 
+# #         return render(request,"Student/rate.html",{'form':form,'y':y})
+
+    
+# def status2(request,id):
+#     y=problem.objects.filter(id=id)
+#     y1=problem.objects.get(id=id) 
+#     parameter={'y':y,'y1':y1}
+#     if(request.method=="POST"):
+#         email=y1.user.email
+#         username=request.user
+#         mailtoo(email,username) 
+#         a=problem_selected.objects.get(O_ID=id)    
+#         a.s=2
+#         a.save()
+#         return render(request,"Student/status2.html",parameter)
+#     else:
+#         return render(request,"Student/status2.html",parameter)
+
+# def status3(request,id):
+#     y=problem.objects.filter(id=id)
+#     y1=problem.objects.get(id=id) 
+#     parameter={'y':y,'y1':y1}
+#     if(request.method=="POST"):       
+#         a=problem_selected.objects.get(O_ID=id)     
+#         a.s=3
+#         a.save()
+#         return render(request,"Student/status3.html",parameter)
+#     return render(request,"Student/status3.html",parameter)
+    
+# def status4(request,id):
+#     y=problem.objects.filter(id=id)
+#     y1=problem.objects.get(id=id) 
+#     parameter={'y':y,'y1':y1}
+#     if(request.method=="POST"):
+#         email=y1.user.email
+#         form = Rate(request.POST ,request.FILES)
 #         if form.is_valid():
 #             object = form.save(commit=False)
 #             quantity= form.instance.fedto
-#             object.user=y.user
+#             object.user=y1.user
 #             object.save()
-#             send(y.user.username,email,quantity)
-#             return HttpResponse("Well Done !")
+#             a=problem_selected.objects.get(O_ID=id)     
+#             a.s=4
+#             a.save()
+#             send(y1.user.username,email,quantity)
+#             messages.success(request,"You have completed the campaign. GOOD WORK!")
+#             return render(request,"Student/status4.html",parameter)
 #         else:
-#             return HttpResponse("Bad Work")    
+#             messages.success(request,"You couldn't complete the campaign. TRY AGAIN!")
+#             return render(request,"Student/status4.html",parameter)  
 #     else:
 #         form = Rate()
-#         y=foodAvbl.objects.filter(id=id) 
+#         y=problem.objects.filter(id=id) 
 #         return render(request,"Student/rate.html",{'form':form,'y':y})
-
-    
-def status2(request,id):
-    y=foodAvbl.objects.filter(id=id)
-    y1=foodAvbl.objects.get(id=id) 
-    parameter={'y':y,'y1':y1}
-    if(request.method=="POST"):
-        email=y1.user.email
-        username=request.user
-        mailtoo(email,username) 
-        a=orders.objects.get(O_ID=id)    
-        a.s=2
-        a.save()
-        return render(request,"Student/status2.html",parameter)
-    else:
-        return render(request,"Student/status2.html",parameter)
-
-def status3(request,id):
-    y=foodAvbl.objects.filter(id=id)
-    y1=foodAvbl.objects.get(id=id) 
-    parameter={'y':y,'y1':y1}
-    if(request.method=="POST"):       
-        a=orders.objects.get(O_ID=id)     
-        a.s=3
-        a.save()
-        return render(request,"Student/status3.html",parameter)
-    return render(request,"Student/status3.html",parameter)
-    
-def status4(request,id):
-    y=foodAvbl.objects.filter(id=id)
-    y1=foodAvbl.objects.get(id=id) 
-    parameter={'y':y,'y1':y1}
-    if(request.method=="POST"):
-        email=y1.user.email
-        form = Rate(request.POST ,request.FILES)
-        if form.is_valid():
-            object = form.save(commit=False)
-            quantity= form.instance.fedto
-            object.user=y1.user
-            object.save()
-            a=orders.objects.get(O_ID=id)     
-            a.s=4
-            a.save()
-            send(y1.user.username,email,quantity)
-            messages.success(request,"You have completed the campaign. GOOD WORK!")
-            return render(request,"Student/status4.html",parameter)
-        else:
-            messages.success(request,"You couldn't complete the campaign. TRY AGAIN!")
-            return render(request,"Student/status4.html",parameter)  
-    else:
-        form = Rate()
-        y=foodAvbl.objects.filter(id=id) 
-        return render(request,"Student/rate.html",{'form':form,'y':y})

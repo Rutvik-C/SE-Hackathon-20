@@ -1,18 +1,16 @@
 from rest_framework import serializers
-from Authority.models import foodAvbl, otherDetails
-from Student.models import FoodReq
-
+from Authority.models import problem, otherDetails
 
 class AvblSerializer(serializers.ModelSerializer):
     class Meta:
-        model = foodAvbl
+        model = problem
         fields = "__all__"
 
 
-class ReqSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FoodReq
-        fields = "__all__"
+# class ReqSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = FoodReq
+#         fields = "__all__"
 
 
 class DetailSerializer(serializers.ModelSerializer):

@@ -1,5 +1,5 @@
 from django import forms
-from Authority.models import otherDetails,foodAvbl
+from Authority.models import otherDetails,problem
 from django.contrib.auth.models import User
 
 class Registerdetail(forms.ModelForm):
@@ -17,6 +17,6 @@ class Food(forms.ModelForm):
             'data-target': '#datetimepicker1'
         })
     )
-        model=foodAvbl
+        model=problem
         fields = "__all__"
         exclude = ('user','otherDetails','city','created_on','images')
