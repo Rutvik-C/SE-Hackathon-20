@@ -13,13 +13,17 @@ class Cities(models.Model):
     def __str__(self):
         return self.name
 
+CHOICES = (
+    ('institute','INSTITUTE'),
+    ('student', 'STUDENT')
+)
 class otherDetails(models.Model):
     user = models.OneToOneField(User, related_name="details", related_query_name="details", null=True, blank=True,on_delete=models.CASCADE)
     address = models.TextField(max_length=250, blank=True)
     phonenumber = models.IntegerField(default=9898944123)
     image = models.ImageField(upload_to='Authority/images')
     city = models.ForeignKey(Cities, on_delete=models.CASCADE, null=True)
-
+    choice = models.CharField(max_length=10, choices=CHOICES, default='institute', null=True)
     def __str__(self):
         return self.address
 

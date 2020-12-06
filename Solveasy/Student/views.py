@@ -142,14 +142,17 @@ def handle_uploaded_file(f):
 def upload_soln(request,id):
     m = id
     y = problem.objects.get(id=id)
-
+    j = problem.objects.all()
     if(request.method=="POST"):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            return render(request, 'Student/loginpage.html')
+            (handle_uploaded_file(request.FILES['file']))
+            z = problem_selected(p_id=id,user=y.user,problem_title=y.problem_title)
+            z.pdf = request.FILES['file']
+            z.save()
+            return render(request, 'Student/loginpage.html' ,{'j':j})
     else:
-        form = UploadFileForm()
+        form = UploadFileForm()        
         z = problem_selected(p_id=id,user=y.user,problem_title=y.problem_title)
         z.save()
     return render(request, 'Student/upload_soln.html', {'form': form,'y':y})

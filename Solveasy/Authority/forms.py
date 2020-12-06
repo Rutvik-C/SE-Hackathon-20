@@ -6,7 +6,7 @@ class Registerdetail(forms.ModelForm):
     class Meta:
         model=otherDetails
         fields = "__all__"
-        exclude = ('user',)
+        exclude = ('user','choice')
 
 class Food(forms.ModelForm):
     class Meta:
@@ -19,4 +19,4 @@ class Food(forms.ModelForm):
     )
         model=problem
         fields = "__all__"
-        exclude = ('user','otherDetails','city','created_on','images')
+        exclude = ('user','otherDetails','city','created_on','images',)
