@@ -153,8 +153,6 @@ def upload_soln(request,id):
             return render(request, 'Student/loginpage.html' ,{'j':j})
     else:
         form = UploadFileForm()        
-        z = problem_selected(p_id=id,user=y.user,problem_title=y.problem_title)
-        z.save()
     return render(request, 'Student/upload_soln.html', {'form': form,'y':y})
 
         # return render(request,'Student/upload_soln.html',{})

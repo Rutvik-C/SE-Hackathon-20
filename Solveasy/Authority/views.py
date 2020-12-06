@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import Registerdetail, Food
+from .forms import Registerdetail1, Food
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import authenticate, login, logout
 from .models import Belongs, problem, otherDetails, Cities
@@ -44,7 +44,7 @@ def signup(request):
         belong.save()
         myuser.save()
         Email(username, email)
-        form = Registerdetail(request.POST, request.FILES)
+        form = Registerdetail1(request.POST, request.FILES)
         if form.is_valid():
             object = form.save(commit=False)
             object.user = myuser
@@ -54,7 +54,7 @@ def signup(request):
         return redirect("/Authority/login")
 
     else:
-        form = Registerdetail()
+        form = Registerdetail1()
         return render(request, 'Authority/signup.html', {"form": form})
 
 
@@ -97,6 +97,11 @@ def loginpage(request):
 def check_user(user):
     return Belongs.objects.get(user=user).is_authority
 
+def problemstatements(request):
+    m = id
+    y = problem.objects.get(id=id)
+
+    return render(request, 'Authority/problems.html' ,{'y':y})
 
 @login_required
 def availability(request):

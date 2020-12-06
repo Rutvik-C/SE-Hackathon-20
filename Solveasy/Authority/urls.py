@@ -26,5 +26,6 @@ urlpatterns = [
     path('logout', views.logout_u, name="logout_u"),
     path('loginpage', views.loginpage, name="loginpage"),
     path('availability', views.availability, name="availability"),
-    path('loginpage/pastalerts', views.alerts, name="alerts")
+    path('loginpage/pastalerts', views.alerts, name="alerts"),
+    path('loginpage/<int:id>/problemstatements', views.problemstatements, name="problemstatements"),
 ]
