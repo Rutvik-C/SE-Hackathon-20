@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   {% load static %}
 <head>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Authority Home Page</title>
+<title>Foodversity</title>
 <link href="https://proxy-ap-south1.goorm.io//service/5ed7420f71bc4ec08d5f3172_dcs3ic4fHwAcq61LxI9.run-ap-south1.goorm.io/9080//file/load/WhatsApp%20Image%202020-07-03%20at%2016.09.51%20(2).jpeg?path=d29ya3NwYWNlJTJGcm90cmFjdCUyRnZpZXdzJTJGaW1hZ2VzJTJGV2hhdHNBcHAlMjBJbWFnZSUyMDIwMjAtMDctMDMlMjBhdCUyMDE2LjA5LjUxJTIwKDIpLmpwZWc=&docker_id=dcs3ic4fHwAcq61LxI9&secure_session_id=FX2m6SIiaI8nF1KTtndqpGN1joMP2pOc" rel="icon">
 <link rel="stylesheet" href="https://themesindustry.com/html/trax-2020/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://themesindustry.com/html/trax-2020/css/all.min.css">
@@ -30,7 +30,7 @@
 <nav class="navbar navbar-expand-lg fixed-bottom static-nav">
 <div style="margin-left:5px;" class="container">
 <a class="" href="#">
-  <img class="" style="margin-left:2px;height:40px; width:200px;" src="{% static 'frontpage/images/logo.png' %}"  alt="home banner">
+  <img class="" style="margin-left:2px;height:40px; width:200px;" src="{% static 'frontpage/images/Logonav.jpeg' %}"  alt="home banner">
 </a>
 <div class="collapse navbar-collapse">
 <ul class="navbar-nav mx-auto ml-xl-auto mr-xl-0">
@@ -38,10 +38,10 @@
 <a class="nav-link active pagescroll" href="#home">Home</a>
 </li>
 <li class="nav-item" href="/Authority/loginpage/pastalerts">
-<a class="nav-link " href="/Authority/loginpage/pastalerts">Past Questions</a>
+<a class="nav-link " href="/Authority/loginpage/pastalerts">Past Orders</a>
 </li>
 <li class="nav-item" href="/Authority/logout">
-<a class="nav-link " href="/Authority/logout">Log Out</a>
+<a class="nav-link " href="/Authority/logout">Logout</a>
 </li>
 </ul>
 </div>
@@ -63,7 +63,7 @@
 </li>
 
 <li class="nav-item">
-<a class="nav-link pagescroll" href="/Authority/loginpage/pastalerts">Past Questions</a>
+<a class="nav-link pagescroll" href="/Authority/loginpage/pastalerts">Past Orders</a>
 </li>
 
 <li class="nav-item">
@@ -96,7 +96,7 @@
 <h2 class="font-xlight">Giving is the greatest act of grace</h2>
 </div>
  <div class="tp-caption tp-resizeme z-index-15" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-70','-70','-70','-70']" data-whitespace="nowrap" data-responsive_offset="on" data-width="['none','none','none','none']" data-type="text" data-textalign="['center','center','center','center']" data-transform_idle="o:1;" data-transform_in="y:[100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;opacity:0;s:2000;e:Power4.easeInOut;" data-transform_out="s:1000;e:Power2.easeInOut;s:1000;e:Power2.easeInOut;" data-start="900" data-splitin="none" data-splitout="none">
-<h2 class="font-bold">Solveasy</h2>
+<h2 class="font-bold">Foodversity</h2>
 </div>
 <div class="tp-caption tp-resizeme z-index-15" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" data-whitespace="nowrap" data-responsive_offset="on" data-width="['none','none','none','none']" data-type="text" data-textalign="['center','center','center','center']" data-fontsize="['24','24','20','20']" data-transform_idle="o:1;" data-transform_in="z:0;rX:0deg;rY:0;rZ:0;sX:2;sY:2;skX:0;skY:0;opacity:0;s:1000;e:Power2.easeOut;" data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;" data-mask_in="x:0px;y:0px;s:inherit;e:inherit;" data-start="1600" data-splitin="none" data-splitout="none">
 <p class="font-light">A portal to provide food for the needy</p>
@@ -125,7 +125,15 @@
 <div class="col-md-6 col-sm-12 order-md-2 text-center text-md-left">
 <div class="contact-meta pl-0 pl-sm-5 wow fadeInRight" data-wow-delay="300ms">
 <div class="heading-title heading_small">
-
+<span class="defaultcolor mb-2">FOODVERSITY</span>
+<h3 class="darkcolor font-normal">Our Mumbai Office</h3>
+</div>
+<div class="my-3">
+<p class="bottom10">309, Green Tower, Munshi Nagar, Andheri West</p>
+<p class="bottom10">Mumbai 400053</p>
+<p class="bottom10">+91 22 1234 5678</p>
+<p class="bottom10">Mon-Fri: 9am-5pm</p>
+</div>
 
 </div>
 </div>
@@ -135,9 +143,8 @@
 <form class="getin_form" action="/Authority/availability" method="post">{% csrf_token %}
 <div class="row px-2">
   {{form.as_p}}
-    <button type="submit" class="btn btn-primary">Submit</button>
-
 </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
 </div>
 </form>
 </div>
@@ -152,8 +159,9 @@
 <div class="row">
 <div class="col-lg-3 col-md-6 col-sm-6">
 <div class="footer_panel padding_bottom_half bottom20">
-<a href="#" class="footer_logo bottom25">  <img src="{% static 'frontpage/images/footerlogo.jpg' %}"  alt="home banner">
+<a href="/" class="footer_logo bottom25">  <img src="{% static 'frontpage/images/logo.png' %}"  alt="home banner">
 </a>
+<p class="whitecolor bottom25">We make a LIVING by WHAT WE GET, But We make a LIFE by WHAT WE GIVE</p>
 <div class="d-table w-100 address-item whitecolor bottom25">
 <span class="d-table-cell align-middle"><i class="fas fa-mobile-alt"></i></span>
 
@@ -172,7 +180,7 @@
 <ul class="links">
 <li><a href="#home" class="pagescroll">Home</a></li>
 <li><a href="/Authority/loginpage/pastorders" class="pagescroll scrollupto">Past Orders</a></li>
-<li><a href="/Authority/logout">Log Out</a></li>
+<li><a href="/API">API Documentation</a></li>
 </ul>
 </div>
 </div>

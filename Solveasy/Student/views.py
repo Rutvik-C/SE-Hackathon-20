@@ -97,15 +97,9 @@ def loginpage(request):
                 details=otherDetails.objects.filter(user=request.user).values_list('city')
                 for d in details:
                     s=Cities.objects.get(pk=d[0])
-                j=foodAvbl.objects.filter(city=s)
-                for i in j:
-                    if i.created_on != None:
-                        i.created_on += timedelta(hours=i.edible)
-                        print(i.created_on)
-                        if now>i.created_on:
-                            history = History(user=i.user,otherDetails=i.otherDetails,measurement=i.measurement,typee=i.typee,quantity=i.quantity,Other_Specifics=i.Other_Specifics,images=i.images,city=i.city,pickup_address=i.pickup_address,created_on=i.created_on,edible=i.edible)
-                            history.save()
-                            i.delete()
+                
+                j=foodAvbl.objects.all()
+                print(j)
                 h=orders.objects.all()
                 print(h)
                 parameter={'j':j,'h':h}
@@ -122,18 +116,12 @@ def loginpage(request):
         details=otherDetails.objects.filter(user=request.user).values_list('city')
         for d in details:
             s=Cities.objects.get(pk=d[0])
-        j=foodAvbl.objects.filter(city=s)
+        j=foodAvbl.objects.all()
+        print(j)
         h=orders.objects.all()
         print(h)
-        now = timezone.now()
-        for i in j:
-            if i.created_on != None:
-                i.created_on += timedelta(hours=i.edible)
-                if now>i.created_on:
-                    history = History(user=i.user,otherDetails=i.otherDetails,measurement=i.measurement,typee=i.typee,quantity=i.quantity,Other_Specifics=i.Other_Specifics,images=i.images,city=i.city,pickup_address=i.pickup_address,created_on=i.created_on,edible=i.edible)
-                    history.save()
-                    i.delete()
-        parameter={'j':j,'h':h}
+        
+        parameter={'j':j}
         messages.success(request,"Successfully Logged in")
         return render(request,'Student/loginpage.html',parameter)
     else:
