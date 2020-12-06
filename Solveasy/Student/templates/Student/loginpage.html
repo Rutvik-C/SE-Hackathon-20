@@ -32,7 +32,7 @@
     <nav class="navbar navbar-expand-lg padding-nav static-nav">
         <div class="container">
             <a class="navbar-brand" href="index.html">
-              <img class="" style="margin-left:2px;height:40px; width:200px;" src="{% static 'frontpage/images/Logonav.jpeg' %}"  alt="home banner">
+              <img class="" style="margin-left:2px;height:40px; width:200px;" src="{% static 'frontpage/images/Logonav1.jpeg' %}"  alt="home banner">
             </a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto mr-auto">
@@ -95,20 +95,18 @@
             <div class="cbp-item">
                 <div class="news_item shadow text-center text-md-left">
                     <a class="image" href="blog-detail.html">
-                        <img src="{% static 'Authority/images/Student.jpg' %}"" alt="Latest News" class="img-responsive">
+                        <img src="{% static 'Authority/images/Student.jpg' %}" alt="Latest News" class="img-responsive">
                     </a>
                     <div class="news_desc">
-                        <h3 class="text-capitalize font-normal darkcolor"><a href="blog-detail.html">{{i.user}}</a></h3>
+
+                        <p class="bottom35"><h3>{{i.Other_Specifics}}</h3></p>
+
                         <ul class="meta-tags top20 bottom20">
-                            <li><a href="#.">{{i.measurement}}--{{i.quantity}}</a></li><br>
-                            <li><a href="#."> </i> {{i.typee}} </a></li><br>
-                            <li><a href="#."></i>{{i.created_on}}</a></li><br>
-                            <li><a href="#.">Best till {{i.edible}} hours</a></li><br>
+                            <h5 class="text-capitalize font-normal darkcolor">Uploaded by: {{i.user}}</h5>
+                            <h5 class="text-capitalize font-normal darkcolor">Uploaded on: {{i.created_on}}</h5>
                         </ul>
-                        <p class="bottom35">{{i.Other_Specifics}}</p>
-                        <p class="bottom35">Pickup Address:<br>{{i.pickup_address}}</p>
                         <a href="/Student/loginpage/{{i.id}}">
-                          <button type="button" class="btn btn-primary btn-lg">Click here to pick food</button>
+                          <button type="button" class="btn btn-primary btn-lg" >View Problem</button>
                         </a>
                     </div>
                 </div>
@@ -120,24 +118,6 @@
         
     </div>
 </section>
-<h1>My Orders</h1>
-{% for i in h %}
-<ul class="p-5">
-  <li>USERNAME : {{i.user}}</li>
-  <li>ID : {{i.O_ID}}</li>
-  <li>Quantity of food: {{i.quantity}}</li>
-  <li>Pick Up Address: {{i.pickup_address}}</li>
-  {% if i.s == 1 %}
-  <button><a href="{% url 'status1' i.O_ID %}">View Status</a></button>  
-  {% elif i.s == 2 %}
-  <button><a href="{% url 'status2' i.O_ID %}">View Status</a></button>  
-  {% elif i.s == 3 %}
-  <button><a href="{% url 'status3' i.O_ID %}">View Status</a></button>  
-  {% else %}
-  <button><a href="{% url 'status4' i.O_ID %}">View Status</a></button>
-  {% endif %}
-</ul>
-{% endfor %}
 
 <footer id="site-footer" class=" bgdark padding_top">
     <div class="container">
