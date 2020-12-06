@@ -120,7 +120,7 @@
 <div class="col-md-6 col-sm-12 order-md-2 text-center text-md-left">
 <div class="contact-meta pl-0 pl-sm-5 wow fadeInRight" data-wow-delay="300ms">
 <div class="heading-title heading_small">
-<span class="defaultcolor mb-2">FOODVERSITY</span>
+<span class="defaultcolor mb-2">Solveasy</span>
 <h3 class="darkcolor font-normal">Our Mumbai Office</h3>
 </div>
 <div class="my-3">
@@ -150,6 +150,11 @@
 </div>
 </section>
 
+{% for i in a %}
+  {% if i.user == usern %}
+ <p>{{i.problem_title}}</p>
+ {% endif %}
+{% endfor %}
 <footer id="site-footer" class=" bgdark padding_top">
 <div class="container">
 <div class="row">

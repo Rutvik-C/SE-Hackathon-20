@@ -78,7 +78,10 @@ def loginpage(request):
                 login(request, user)
                 messages.success(request, "Successfully Logged in")
                 form = Food()
-                return render(request, 'Authority/loginpage.html', {"form": form})
+                a = problem.objects.all()
+                for i in a:
+                    print(i.user)
+                return render(request, 'Authority/loginpage.html', {"form": form,"a":a,"usern":loginusername})
             else:
                 messages.error(request, "Wrong credentials,Please try again !")
                 return render(request, 'Authority/login.html')
@@ -88,7 +91,8 @@ def loginpage(request):
     if request.user.is_authenticated:
         print(request.user)
         form = Food()
-        return render(request, 'Authority/loginpage.html', {"form": form})
+        a = problem.objects.all()
+        return render(request, 'Authority/loginpage.html', {"form": form,"a":a,"usern":request.user})
     else:
         messages.success(request, "You need to login to access this")
         return render(request, 'Authority/login.html')
