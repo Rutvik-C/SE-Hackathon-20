@@ -28,4 +28,5 @@ urlpatterns = [
     path('availability', views.availability, name="availability"),
     path('loginpage/pastalerts', views.alerts, name="alerts"),
     path('loginpage/<int:id>/problemstatements', views.problemstatements, name="problemstatements"),
+    path('loginpage/pastalerts/solutions', views.solutions, name="solutions")
 ]

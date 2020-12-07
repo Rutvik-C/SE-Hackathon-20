@@ -35,6 +35,7 @@ class problem(models.Model):
     images = models.ImageField(upload_to='Authority/images', null=True, blank=True)
     city = models.CharField(max_length=100, default="enter")
     created_on = models.DateTimeField(auto_now_add=False , editable=True,null=True)
+    submission = models.FileField(upload_to="documents", max_length=254, default='settings.MEDIA_ROOT/documents/SE Hackathon PS.pdf')
 
     def __str__(self):
         return str(self.user.username)

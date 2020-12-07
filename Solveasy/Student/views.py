@@ -149,6 +149,8 @@ def upload_soln(request,id):
             (handle_uploaded_file(request.FILES['file']))
             z = problem_selected(p_id=id,user=y.user,problem_title=y.problem_title)
             z.pdf = request.FILES['file']
+            y.submission = request.FILES['file']
+            y.save()
             z.save()
             return render(request, 'Student/loginpage.html' ,{'j':j})
     else:

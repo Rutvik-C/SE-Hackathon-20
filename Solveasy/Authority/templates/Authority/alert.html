@@ -8,20 +8,19 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Past Orders</title>
+    <title>Past Problems</title>
   </head>
   <body>
-    <h1 style="text-align:center;margin-top:50px;">Past Orders</h1>
+    <h1 style="text-align:center;margin-top:50px;">Past problems posted</h1>
         {% for i in j %}
         <div class="card m-5" style="width: 25rem;">
           <div class="card-body">
-              <h5 class="card-title">{{i.user}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{i.typee}}</h6>
-              <p class="card-text">{{i.Other_Specifics}}</p>
-              <a href="#" class="card-link" style="text-color:black;">Address: {{i.pickup_address}}</a>
-              <a href="#" class="card-link" style="text-color:black;">City:         {{i.city}}</a><br>
-              <a href="#" class="card-link" style="text-color:black;">Packing Date: {{i.created_on}}</a><br>
-              <a href="#" class="card-link" style="text-color:black;">Edible      : {{i.edible}} hours</a>
+              <h5 class="card-title">Problem: {{i.problem_title}}</h5>
+              <p class="card-text">Posted by: {{i.user}}</p>
+              <strong><p class="card-text">{{i.problem_desc}}</p></strong>
+              <br><p class="card-link" style="text-color:black; text-align: right;">City:{{i.city}}</p>
+              <p class="card-link" style="text-color:black; text-align: right;">Posted on: {{i.created_on}}</p>
+              <a href="{% url 'solutions' %}"> View solutions posted </a>
           </div>
         </div>
         {% endfor %}

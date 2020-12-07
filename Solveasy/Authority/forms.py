@@ -25,4 +25,4 @@ class Food(forms.ModelForm):
     )
         model=problem
         fields = "__all__"
-        exclude = ('user','otherDetails','city','created_on','images',)
+        exclude = ('user','otherDetails','city','created_on','images','submission',)

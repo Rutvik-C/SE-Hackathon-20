@@ -133,10 +133,19 @@ def availability(request):
 
 
 def alerts(request):
-    m = History.objects.filter(user=request.user)
+    m = problem.objects.filter(user=request.user)
     if (len(m) != 0):
-        j = History.objects.filter(user=request.user)
+        j = problem.objects.filter(user=request.user)
         parameter = {'j': j}
         return render(request, 'Authority/alert.html', parameter)
     else:
         return render(request, "Authority/alert1.html")
+
+def solutions(request):
+    m = problem.objects.filter(user=request.user)
+    if (len(m) != 0):
+        j = problem.objects.filter(user=request.user)
+        parameter = {'j': j}
+        return render(request, 'Authority/solutions.html', parameter)
+    else:
+        return render(request, "Authority/loginpage.html")
