@@ -1,0 +1,7 @@
+{% for i in j %}
+    {% if i.submission == 'settings.MEDIA_ROOT/documents/SE Hackathon PS.pdf' %}
+        <p>No submissions yet!</p>
+    {% else %}
+        {{ i.submission }}
+    {% endif %}
+{% endfor %}

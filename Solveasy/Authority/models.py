@@ -13,13 +13,17 @@ class Cities(models.Model):
     def __str__(self):
         return self.name
 
+CHOICES = (
+    ('institute','INSTITUTE'),
+    ('student', 'STUDENT')
+)
 class otherDetails(models.Model):
     user = models.OneToOneField(User, related_name="details", related_query_name="details", null=True, blank=True,on_delete=models.CASCADE)
     address = models.TextField(max_length=250, blank=True)
     phonenumber = models.IntegerField(default=9898944123)
     image = models.ImageField(upload_to='Authority/images')
     city = models.ForeignKey(Cities, on_delete=models.CASCADE, null=True)
-
+    choice = models.CharField(max_length=10, choices=CHOICES, default='institute', null=True)
     def __str__(self):
         return self.address
 
@@ -31,6 +35,7 @@ class problem(models.Model):
     images = models.ImageField(upload_to='Authority/images', null=True, blank=True)
     city = models.CharField(max_length=100, default="enter")
     created_on = models.DateTimeField(auto_now_add=False , editable=True,null=True)
+    submission = models.FileField(upload_to="documents", max_length=254, default='settings.MEDIA_ROOT/documents/SE Hackathon PS.pdf')
 
     def __str__(self):
         return str(self.user.username)

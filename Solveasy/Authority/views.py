@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import Registerdetail, Food
+from .forms import Registerdetail1, Food
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import authenticate, login, logout
 from .models import Belongs, problem, otherDetails, Cities
@@ -44,7 +44,7 @@ def signup(request):
         belong.save()
         myuser.save()
         Email(username, email)
-        form = Registerdetail(request.POST, request.FILES)
+        form = Registerdetail1(request.POST, request.FILES)
         if form.is_valid():
             object = form.save(commit=False)
             object.user = myuser
@@ -54,7 +54,7 @@ def signup(request):
         return redirect("/Authority/login")
 
     else:
-        form = Registerdetail()
+        form = Registerdetail1()
         return render(request, 'Authority/signup.html', {"form": form})
 
 
@@ -78,7 +78,10 @@ def loginpage(request):
                 login(request, user)
                 messages.success(request, "Successfully Logged in")
                 form = Food()
-                return render(request, 'Authority/loginpage.html', {"form": form})
+                a = problem.objects.all()
+                for i in a:
+                    print(i.user)
+                return render(request, 'Authority/loginpage.html', {"form": form,"a":a,"usern":loginusername})
             else:
                 messages.error(request, "Wrong credentials,Please try again !")
                 return render(request, 'Authority/login.html')
@@ -88,7 +91,8 @@ def loginpage(request):
     if request.user.is_authenticated:
         print(request.user)
         form = Food()
-        return render(request, 'Authority/loginpage.html', {"form": form})
+        a = problem.objects.all()
+        return render(request, 'Authority/loginpage.html', {"form": form,"a":a,"usern":request.user})
     else:
         messages.success(request, "You need to login to access this")
         return render(request, 'Authority/login.html')
@@ -97,6 +101,11 @@ def loginpage(request):
 def check_user(user):
     return Belongs.objects.get(user=user).is_authority
 
+def problemstatements(request):
+    m = id
+    y = problem.objects.get(id=id)
+
+    return render(request, 'Authority/problems.html' ,{'y':y})
 
 @login_required
 def availability(request):
@@ -124,10 +133,19 @@ def availability(request):
 
 
 def alerts(request):
-    m = History.objects.filter(user=request.user)
+    m = problem.objects.filter(user=request.user)
     if (len(m) != 0):
-        j = History.objects.filter(user=request.user)
+        j = problem.objects.filter(user=request.user)
         parameter = {'j': j}
         return render(request, 'Authority/alert.html', parameter)
     else:
         return render(request, "Authority/alert1.html")
+
+def solutions(request):
+    m = problem.objects.filter(user=request.user)
+    if (len(m) != 0):
+        j = problem.objects.filter(user=request.user)
+        parameter = {'j': j}
+        return render(request, 'Authority/solutions.html', parameter)
+    else:
+        return render(request, "Authority/loginpage.html")

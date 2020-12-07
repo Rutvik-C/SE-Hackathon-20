@@ -134,19 +134,27 @@ def displaypage(request,id):
     print(y)    
     return render(request,'Student/thankyou.html',{'y':y})
 
+def handle_uploaded_file(f):
+    with open('Student/documents/'+f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
 def upload_soln(request,id):
     m = id
     y = problem.objects.get(id=id)
-
+    j = problem.objects.all()
     if(request.method=="POST"):
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return render(request, 'Student/loginpage.html')
+            (handle_uploaded_file(request.FILES['file']))
+            z = problem_selected(p_id=id,user=y.user,problem_title=y.problem_title)
+            z.pdf = request.FILES['file']
+            y.submission = request.FILES['file']
+            y.save()
+            z.save()
+            return render(request, 'Student/loginpage.html' ,{'j':j})
     else:
-        form = UploadFileForm()
-        z = problem_selected(p_id=id,user=y.user,s=0,problem_title=y)
-        z.save()
+        form = UploadFileForm()        
     return render(request, 'Student/upload_soln.html', {'form': form,'y':y})
 
         # return render(request,'Student/upload_soln.html',{})

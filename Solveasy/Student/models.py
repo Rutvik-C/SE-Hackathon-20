@@ -13,6 +13,5 @@ class problem_selected(models.Model):
     p_id=models.IntegerField(default=0)
     user = models.ForeignKey(User, related_name="order_foods", related_query_name="order_foods", null=True, blank=True,
                              on_delete=models.CASCADE)
-    s = models.IntegerField(default=1)
-    problem_title = models.ForeignKey(problem, on_delete=models.CASCADE, null=True)
+    problem_title = models.CharField(max_length=100,default="enter")
     pdf = models.FileField(upload_to="documents", max_length=254, default='settings.MEDIA_ROOT/documents/SE Hackathon PS.pdf')
